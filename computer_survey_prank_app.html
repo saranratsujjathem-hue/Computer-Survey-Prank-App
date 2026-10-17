@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบสอบถามงานวิจัยเกี่ยวกับคอมพิวเตอร์</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Prompt', sans-serif;
+        }
+
+        /* Custom Soft Gradient Background */
+        body {
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Heart Floating Animation */
+        .heart {
+            position: fixed;
+            font-size: 24px;
+            color: #ff4d6d;
+            user-select: none;
+            pointer-events: none;
+            animation: floatUp 4s linear infinite;
+            z-index: 1000;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.3) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Smooth Transition Effects */
+        .step-section {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Radio Styling */
+        .custom-radio:checked + label {
+            background-color: #6366f1;
+            color: white;
+            border-color: #6366f1;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Pulse Heart Icon */
+        .heart-beat {
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.15); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.15); }
+            70% { transform: scale(1); }
+        }
+
+        /* Loader Animation */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 min-h-screen">
+
+    <div class="w-full max-w-xl glass-card rounded-3xl p-6 md:p-10 relative overflow-hidden transition-all duration-300">
+
+        <!-- Header Decorative Badge -->
+        <div class="flex justify-center mb-6" id="top-badge">
+            <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs md:text-sm font-medium bg-indigo-100 text-indigo-700 shadow-sm">
+                <i class="fa-solid fa-laptop-code mr-2"></i> Computer Research Survey
+            </span>
+        </div>
+
+        <!-- ==================== PAGE 1 ==================== -->
+        <div id="step1" class="step-section block space-y-6">
+            <div class="text-center space-y-2">
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-800">กรุณากรอกข้อมูลเบื้องต้น</h1>
+                <p class="text-sm md:text-base text-gray-600">แบบสอบถามงานวิจัยเกี่ยวกับคอมพิวเตอร์</p>
+            </div>
+
+            <form id="infoForm" onsubmit="handleStep1(event)" class="space-y-4">
+                <!-- Nickname -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">ชื่อเล่น <span class="text-red-500">*</span></label>
+                    <input type="text" id="nickname" required placeholder="เช่น นัท, มายด์" 
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 outline-none transition bg-white/70">
+                </div>
+
+                <!-- Age -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">อายุ <span class="text-red-500">*</span></label>
+                    <input type="number" id="age" required min="1" max="120" placeholder="เช่น 20" 
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 outline-none transition bg-white/70">
+                </div>
+
+                <!-- Gender -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">เพศ <span class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div>
+                            <input type="radio" id="gender-male" name="gender" value="ชาย" class="hidden custom-radio" required>
+                            <label for="gender-male" class="block text-center py-2.5 px-4 rounded-xl border border-gray-200 bg-white/70 cursor-pointer text-sm font-medium text-gray-700 hover:bg-indigo-50 transition">
+                                ชาย
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="gender-female" name="gender" value="หญิง" class="hidden custom-radio">
+                            <label for="gender-female" class="block text-center py-2.5 px-4 rounded-xl border border-gray-200 bg-white/70 cursor-pointer text-sm font-medium text-gray-700 hover:bg-indigo-50 transition">
+                                หญิง
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="gender-other" name="gender" value="อื่นๆ" class="hidden custom-radio">
+                            <label for="gender-other" class="block text-center py-2.5 px-4 rounded-xl border border-gray-200 bg-white/70 cursor-pointer text-sm font-medium text-gray-700 hover:bg-indigo-50 transition">
+                                อื่นๆ
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button Page 1 -->
+                <button type="submit" 
+                    class="w-full mt-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-indigo-500/25 active:scale-[0.98] transition-all duration-200">
+                    เริ่มทำแบบสอบถาม <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- ==================== PAGE 2 ==================== -->
+        <div id="step2" class="step-section hidden space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-2xl font-bold text-gray-800">คำถามเกี่ยวกับคอมพิวเตอร์</h2>
+                <p class="text-xs text-indigo-600 font-medium">โปรดตอบคำถามให้ครบทุกข้อ (ข้อ 1 - 5)</p>
+            </div>
+
+            <form id="surveyForm" onsubmit="handleStep2(event)" class="space-y-5 max-h-[60vh] overflow-y-auto pr-2">
+                <!-- Q1 -->
+                <div class="bg-white/60 p-4 rounded-2xl border border-gray-100">
+                    <p class="text-sm font-semibold text-gray-800 mb-3">1. คุณชอบใช้ระบบปฏิบัติการใด?</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <input type="radio" id="q1-a" name="q1" value="Windows" class="hidden custom-radio" required>
+                            <label for="q1-a" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-brands fa-windows mr-1"></i> Windows
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="q1-b" name="q1" value="macOS" class="hidden custom-radio">
+                            <label for="q1-b" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-brands fa-apple mr-1"></i> macOS
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="bg-white/60 p-4 rounded-2xl border border-gray-100">
+                    <p class="text-sm font-semibold text-gray-800 mb-3">2. เวลาทำงานคุณชอบใช้ Desktop PC หรือ Laptop?</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <input type="radio" id="q2-a" name="q2" value="Desktop PC" class="hidden custom-radio" required>
+                            <label for="q2-a" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-solid fa-desktop mr-1"></i> Desktop PC
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="q2-b" name="q2" value="Laptop" class="hidden custom-radio">
+                            <label for="q2-b" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-solid fa-laptop mr-1"></i> Laptop
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="bg-white/60 p-4 rounded-2xl border border-gray-100">
+                    <p class="text-sm font-semibold text-gray-800 mb-3">3. คุณใช้คอมพิวเตอร์พิมพ์งานหรือเล่นเกมมากกว่ากัน?</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <input type="radio" id="q3-a" name="q3" value="ทำงาน/พิมพ์งาน" class="hidden custom-radio" required>
+                            <label for="q3-a" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-solid fa-keyboard mr-1"></i> พิมพ์งาน
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="q3-b" name="q3" value="เล่นเกม" class="hidden custom-radio">
+                            <label for="q3-b" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-solid fa-gamepad mr-1"></i> เล่นเกม
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="bg-white/60 p-4 rounded-2xl border border-gray-100">
+                    <p class="text-sm font-semibold text-gray-800 mb-3">4. คุณชอบใช้เมาส์แบบมีสายหรือไร้สาย?</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <input type="radio" id="q4-a" name="q4" value="มีสาย" class="hidden custom-radio" required>
+                            <label for="q4-a" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-solid fa-plug mr-1"></i> มีสาย
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="q4-b" name="q4" value="ไร้สาย" class="hidden custom-radio">
+                            <label for="q4-b" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-solid fa-wifi mr-1"></i> ไร้สาย
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="bg-white/60 p-4 rounded-2xl border border-gray-100">
+                    <p class="text-sm font-semibold text-gray-800 mb-3">5. คุณเคยลืมเซฟงานก่อนเครื่องดับหรือไม่?</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <input type="radio" id="q5-a" name="q5" value="เคย" class="hidden custom-radio" required>
+                            <label for="q5-a" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-solid fa-face-frown mr-1"></i> เคย
+                            </label>
+                        </div>
+                        <div>
+                            <input type="radio" id="q5-b" name="q5" value="ไม่เคย" class="hidden custom-radio">
+                            <label for="q5-b" class="block text-center py-2 px-3 rounded-xl border border-gray-200 bg-white cursor-pointer text-xs md:text-sm font-medium text-gray-700 transition">
+                                <i class="fa-solid fa-face-smile mr-1"></i> ไม่เคย
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button Page 2 -->
+                <button type="submit" 
+                    class="w-full mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-indigo-500/25 active:scale-[0.98] transition-all duration-200">
+                    ส่งแบบสอบถาม <i class="fa-solid fa-paper-plane ml-2"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- ==================== PAGE 3 ==================== -->
+        <div id="step3" class="step-section hidden text-center space-y-6 py-6">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto text-3xl shadow-inner">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            
+            <div class="space-y-2">
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">ส่งแบบสอบถามเรียบร้อย</h2>
+                <p class="text-base text-gray-600">กรุณากดปุ่มรับสิทธิ์พิเศษของท่าน</p>
+            </div>
+
+            <button onclick="goToStep4()" 
+                class="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-pink-500/30 active:scale-[0.98] transition-all duration-200">
+                <i class="fa-solid fa-gift mr-2"></i> รับสิทธิ์
+            </button>
+        </div>
+
+        <!-- ==================== PAGE 4 ==================== -->
+        <div id="step4" class="step-section hidden text-center space-y-6 py-12">
+            <div class="flex justify-center">
+                <div class="loader"></div>
+            </div>
+            <div class="space-y-2">
+                <h3 class="text-xl font-bold text-gray-800">กำลังประมวลผล...</h3>
+                <p class="text-sm text-gray-500">ระบบกำลังตรวจสอบสิทธิ์พิเศษสำหรับคุณ <span id="user-display-name" class="font-semibold text-indigo-600"></span></p>
+            </div>
+        </div>
+
+        <!-- ==================== PAGE 5 ==================== -->
+        <div id="step5" class="step-section hidden text-center space-y-8 py-4 relative">
+            <div class="space-y-3">
+                <div class="inline-block p-3 bg-pink-100 rounded-full text-pink-500 mb-2">
+                    <i class="fa-solid fa-heart text-3xl heart-beat"></i>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
+                    Will you be my girlfriend?
+                </h2>
+                
+            </div>
+
+            <!-- Buttons container -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 min-h-[100px] relative" id="buttons-wrapper">
+                <button onclick="handleYes()" id="btn-yes"
+                    class="w-full sm:w-auto min-w-[140px] bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-3.5 px-8 rounded-2xl shadow-lg hover:shadow-pink-500/40 hover:scale-105 active:scale-95 transition-all duration-200 z-10">
+                    Yes 
+                </button>
+                
+                <button onclick="handleNo()" id="btn-no"
+                    class="w-full sm:w-auto min-w-[140px] bg-gray-200 text-gray-700 font-bold py-3.5 px-8 rounded-2xl shadow hover:bg-gray-300 transition-all duration-150">
+                    No 
+                </button>
+            </div>
+
+            <!-- Hidden Thank You Message Container -->
+            <div id="thankyou-message" class="hidden space-y-4 pt-4 animate-fade-in">
+                <div class="p-4 bg-pink-50 border border-pink-200 rounded-2xl text-pink-700 font-bold text-lg md:text-xl shadow-inner">
+                    Thank you for coming into saran life
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        let userName = "";
+
+        // Handle Page 1 -> Page 2
+        function handleStep1(e) {
+            e.preventDefault();
+            userName = document.getElementById('nickname').value;
+            document.getElementById('user-display-name').innerText = userName;
+
+            switchStep('step1', 'step2');
+        }
+
+        // Handle Page 2 -> Page 3
+        function handleStep2(e) {
+            e.preventDefault();
+            switchStep('step2', 'step3');
+        }
+
+        // Handle Page 3 -> Page 4 (Auto switch to Page 5 after 2.5s)
+        function goToStep4() {
+            switchStep('step3', 'step4');
+            
+            // Auto transition to Step 5 after processing animation
+            setTimeout(() => {
+                switchStep('step4', 'step5');
+            }, 2500);
+        }
+
+        // Utility Function to switch screens
+        function switchStep(fromId, toId) {
+            const fromElem = document.getElementById(fromId);
+            const toElem = document.getElementById(toId);
+
+            fromElem.classList.add('hidden');
+            toElem.classList.remove('hidden');
+        }
+
+        // Handle No Button Click (Do nothing)
+        function handleNo() {
+            // ไม่ต้องทำอะไรเมื่อกดปุ่ม No
+        }
+
+        // Handle Yes Button Click
+        function handleYes() {
+            const yesBtn = document.getElementById('btn-yes');
+            const message = document.getElementById('thankyou-message');
+
+            yesBtn.disabled = true;
+            yesBtn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            // Show Thank You Message
+            message.classList.remove('hidden');
+
+            // Trigger Floating Hearts Effect
+            createHeartsEffect();
+        }
+
+        // Floating Hearts Generator
+        function createHeartsEffect() {
+            const heartIcons = ['❤️','🌸',];
+            
+            // Spawn hearts continuously
+            const interval = setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                
+                // Randomize horizontal starting position and size
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 2 + 2) + 's'; // between 2s and 4s
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px'; // size 20px - 40px
+
+                document.body.appendChild(heart);
+
+                // Clean up hearts after animation completes
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
+            }, 150);
+
+            // Stop generating after 10 seconds to save performance
+            setTimeout(() => {
+                clearInterval(interval);
+            }, 10000);
+        }
+    </script>
+</body>
+</html>
